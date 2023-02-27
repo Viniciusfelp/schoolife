@@ -18,17 +18,17 @@ public class NotaService {
         return notaRepository.save(nota);
     }
 
-    public List<Nota> buscarNotasDoAluno(String cpf) {
+    /*public List<Nota> buscarNotasDoAluno(String cpf) {
         return notaRepository.findByAlunoCpf(cpf);
     }
 
-    public List<Nota> buscarNotasDaDisciplina(Long id) {
+    public List<Nota> buscarNotasDaDisciplina(String id) {
         return notaRepository.findByDisciplinaId(id);
     }
 
-    public List<Nota> buscarNotasDoAlunoEmUmaDisciplina(String cpf, Long id) {
-        return notaRepository.findByAlunoCpfAndDisciplinaId(cpf, id);
-    }
+    public List<Nota> buscarNotasDoAlunoEmUmaDisciplina(String cpf, String id) {
+        return notaRepository.findByAlunoCpfAndDisciplina(cpf, id);
+    }*/
 
     public void deletarNota(Long notaId) {
         Optional<Nota> nota = notaRepository.findById(notaId);

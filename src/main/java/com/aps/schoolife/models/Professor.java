@@ -14,10 +14,11 @@ import java.util.List;
 public class Professor {
 
     @Id
-    @Column(name = "cpf")
+    @Column(name = "cpf" , unique = true)
     private String cpf;
 
     private String nome;
+    @Column(unique = true)
     private String email;
     @OneToMany(mappedBy = "professor")
     private List<Disciplina> disciplina;
