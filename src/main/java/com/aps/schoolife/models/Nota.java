@@ -18,15 +18,15 @@ public class Nota {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "aluno_id")
+    @JoinColumn(name = "cpf")
     private Aluno aluno;
 
     @ManyToOne
-    @JoinColumn(name = "disciplina_id")
+    @JoinColumn(name = "codigo")
     private Disciplina disciplina;
 
     @ManyToOne
-    @JoinColumn(name = "turma_id")
+    @JoinColumn(name = "id_turma")
     private Turma turma;
 
     private Double nota;

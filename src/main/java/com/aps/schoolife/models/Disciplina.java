@@ -15,12 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Disciplina {
     @Id
+    @Column(name = "codigo")
     private String codigo;
     private String nome;
     @ManyToMany
     @JoinTable(name = "disciplina_turma",
-            joinColumns = @JoinColumn(name = "disciplina_codigo"),
-            inverseJoinColumns = @JoinColumn(name = "turma_id"))
+            joinColumns = @JoinColumn(name = "codigo"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma"))
     private List<Turma> turma;
     @ManyToOne
     @JoinColumn(name = "cpf")
