@@ -30,7 +30,7 @@ public class ProfessorController {
     }
 
     @PostMapping
-    public ResponseEntity<Professor> criarProfessor(@RequestBody Professor professor) {
+    public ResponseEntity<Professor> cadastrarProfessor(@RequestBody Professor professor) {
         professor = professorService.cadastrarProfessor(professor);
         return ResponseEntity.status(HttpStatus.CREATED).body(professor);
     }

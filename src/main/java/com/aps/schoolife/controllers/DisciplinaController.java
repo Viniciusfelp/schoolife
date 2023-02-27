@@ -16,7 +16,7 @@ public class DisciplinaController {
 
     //criar disciplina
     @PostMapping("/disciplinas")
-    public ResponseEntity<Disciplina> criarDisciplina(Disciplina disciplina) {
+    public ResponseEntity<Disciplina> cadastrarDisciplina(Disciplina disciplina) {
         return ResponseEntity.ok(disciplinaService.cadastrarDisciplina(disciplina));
     }
 
@@ -29,5 +29,10 @@ public class DisciplinaController {
     public ResponseEntity<Void> deletarDisciplina(@PathVariable Long id) {
         disciplinaService.deletarDisciplina(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/disciplinas/{id}")
+    public ResponseEntity<Disciplina> atualizarDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
+        return ResponseEntity.ok(disciplinaService.atualizarDisciplina(id, disciplina));
     }
 }

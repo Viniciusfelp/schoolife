@@ -1,7 +1,7 @@
 package com.aps.schoolife.fachada;
 
 import com.aps.schoolife.controllers.*;
-import com.aps.schoolife.models.Disciplina;
+import com.aps.schoolife.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -25,5 +25,48 @@ public class Fachada {
     @Autowired
     private TurmaController turmaController;
 
+    public void cadastrarAluno(String nome, String cpf, String email, String senha, String telefone, String endereco) {
+        alunoController.cadastrarAluno(new Aluno(cpf, nome, email, null));
+    }
+
+    public void cadastrarDisciplina(String codigo, String nome) {
+        disciplinaController.cadastrarDisciplina(new Disciplina(codigo, nome,null, null));
+    }
+
+    public void cadastrarNota(Aluno aluno, Disciplina disciplina, Turma turma, double nota) {
+        notaController.cadastrarNota(new Nota(null, aluno, disciplina, turma, nota));
+    }
+
+    public void cadastrarProfessor(String nome, String cpf, String email, String senha, String telefone, String endereco) {
+        professorController.cadastrarProfessor(new Professor(cpf, nome, email, null));
+    }
+
+    public void cadastrarTurma(String codigo, String nome, Professor professor, String turno) {
+        turmaController.cadastrarTurma(new Turma( 1,nome, turno, null));
+    }
+
+    public void atualizarAluno(String nome, String cpf, String email, String senha, String telefone, String endereco) {
+        alunoController.atualizarAluno(cpf, new Aluno(cpf, nome, email, null));
+    }
+
+    public void atualizarDisciplina(String codigo, String nome) {
+        disciplinaController.atualizarDisciplina(null, new Disciplina(codigo, nome,null, null));
+    }
+
+    public void atualizarNota(long idNota, Aluno aluno, Disciplina disciplina, Turma turma, double nota) {
+        notaController.atualizarNota(idNota, new Nota(null, aluno, disciplina, turma, nota));
+    }
+
+    public void atualizarProfessor(String nome, String cpf, String email, String senha, String telefone, String endereco) {
+        professorController.atualizarProfessor(cpf, new Professor(cpf, nome, email, null));
+    }
+
+    public void atualizarTurma(Long codigo, String nome, Professor professor, String turno) {
+        turmaController.atualizarTurma(codigo, new Turma( 1,nome, turno, null));
+    }
+
+    public void removerAluno(String cpf) {
+        alunoController.removerAluno(cpf);
+    }
 
 }

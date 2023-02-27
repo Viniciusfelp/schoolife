@@ -34,7 +34,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Aluno> criarAluno(@RequestBody Aluno aluno) {
+    public ResponseEntity<Aluno> cadastrarAluno(@RequestBody Aluno aluno) {
         Aluno novoAluno = alunoService.criarAluno(aluno);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
@@ -53,7 +53,7 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{cpf}")
-    public ResponseEntity<Void> excluirAluno(@PathVariable String cpf) {
+    public ResponseEntity<Void> removerAluno(@PathVariable String cpf) {
         Optional<Aluno> alunoOptional = alunoService.buscarAluno(cpf);
 
         if (alunoOptional.isPresent()) {

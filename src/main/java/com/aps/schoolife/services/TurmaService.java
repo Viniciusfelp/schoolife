@@ -14,8 +14,8 @@ public class TurmaService {
     @Autowired
     private TurmaRepository turmaRepository;
 
-    public void cadastrarTurma(Turma turma) {
-        turmaRepository.save(turma);
+    public Turma cadastrarTurma(Turma turma) {
+        return turmaRepository.save(turma);
     }
 
     public List<Turma> listarTurmas() {

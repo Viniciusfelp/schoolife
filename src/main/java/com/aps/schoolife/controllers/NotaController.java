@@ -15,7 +15,7 @@ public class NotaController {
     private NotaService notaService;
 
     @PostMapping
-    public Nota salvar(@RequestBody Nota nota) {
+    public Nota cadastrarNota(@RequestBody Nota nota) {
         return notaService.salvar(nota);
     }
 

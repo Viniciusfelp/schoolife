@@ -55,4 +55,9 @@ public class TurmaController {
         }
     }
 
+    @PostMapping("/turmas")
+    public ResponseEntity<Turma> cadastrarTurma(@RequestBody Turma turma) {
+        return ResponseEntity.ok(turmaService.cadastrarTurma(turma));
+    }
+
 }

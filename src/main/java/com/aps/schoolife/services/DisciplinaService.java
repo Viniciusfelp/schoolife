@@ -28,4 +28,15 @@ public class DisciplinaService {
             //throw new DisciplinaNaoEncontradaException();
         }
     }
+
+    public Disciplina atualizarDisciplina(Long id, Disciplina disciplina) {
+        if (disciplinaRepository.existsById(id)) {
+            Disciplina disciplinaAtualizada = disciplinaRepository.getById(id);
+            disciplinaAtualizada.setNome(disciplina.getNome());
+            disciplinaRepository.save(disciplinaAtualizada);
+            return disciplinaAtualizada;
+        }else{
+            return null;
+        }
+    }
 }
