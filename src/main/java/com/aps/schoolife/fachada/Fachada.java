@@ -17,7 +17,7 @@ public class Fachada {
     private DisciplinaController disciplinaController;
 
     @Autowired
-    private NotaController notaController;
+    private RegistroAcademicoController registroAcademicoController;
 
     @Autowired
     private ProfessorController professorController;
@@ -34,7 +34,7 @@ public class Fachada {
     }
 
     public void cadastrarNota(Aluno aluno, Disciplina disciplina, Turma turma, double nota) {
-        notaController.cadastrarNota(new Nota(null, aluno, disciplina, turma, nota));
+        registroAcademicoController.cadastrarNota(new RegistroAcademico(null, aluno, disciplina, turma, nota));
     }
 
     public void cadastrarProfessor(String nome, String cpf, String email, String senha, String telefone, String endereco) {
@@ -54,7 +54,7 @@ public class Fachada {
     }
 
     public void atualizarNota(long idNota, Aluno aluno, Disciplina disciplina, Turma turma, double nota) {
-        notaController.atualizarNota(idNota, new Nota(null, aluno, disciplina, turma, nota));
+        registroAcademicoController.atualizarNota(idNota, new RegistroAcademico(null, aluno, disciplina, turma, nota));
     }
 
     public void atualizarProfessor(String nome, String cpf, String email, String senha, String telefone, String endereco) {

@@ -7,12 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Nota {
+public class RegistroAcademico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +32,7 @@ public class Nota {
     private Turma turma;
 
     private Double nota;
-
-    // construtores, getters e setters
+    @OneToMany(mappedBy = "registroAcademico", cascade = CascadeType.ALL)
+    private List<Presenca> presencas;
 }
 

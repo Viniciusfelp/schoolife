@@ -1,22 +1,20 @@
 package com.aps.schoolife.controllers;
 
-import com.aps.schoolife.models.Nota;
-import com.aps.schoolife.services.NotaService;
+import com.aps.schoolife.models.RegistroAcademico;
+import com.aps.schoolife.services.RegistroAcademicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/notas")
-public class NotaController {
+public class RegistroAcademicoController {
     @Autowired
-    private NotaService notaService;
+    private RegistroAcademicoService registroAcademicoService;
 
     @PostMapping
-    public Nota cadastrarNota(@RequestBody Nota nota) {
-        return notaService.salvar(nota);
+    public RegistroAcademico cadastrarNota(@RequestBody RegistroAcademico registroAcademico) {
+        return registroAcademicoService.salvar(registroAcademico);
     }
 
     //Todas as notas de um aluno
@@ -38,16 +36,16 @@ public class NotaController {
         return ResponseEntity.ok(notas);
     }*/
     @PutMapping("/notas/{notaId}")
-    public ResponseEntity<Nota> atualizarNota(@PathVariable Long notaId, @RequestBody Nota notaAtualizada) {
-        Nota nota = notaService.buscarNotaPorId(notaId);
-        nota.setNota(notaAtualizada.getNota());
-        Nota notaAtualizadaAux = notaService.atualizarNota(nota);
-        return ResponseEntity.ok(notaAtualizadaAux);
+    public ResponseEntity<RegistroAcademico> atualizarNota(@PathVariable Long notaId, @RequestBody RegistroAcademico registroAcademicoAtualizada) {
+        RegistroAcademico registroAcademico = registroAcademicoService.buscarNotaPorId(notaId);
+        registroAcademico.setNota(registroAcademicoAtualizada.getNota());
+        RegistroAcademico registroAcademicoAtualizadaAux = registroAcademicoService.atualizarNota(registroAcademico);
+        return ResponseEntity.ok(registroAcademicoAtualizadaAux);
     }
 
     @DeleteMapping("/notas/{notaId}")
     public ResponseEntity<Void> deletarNota(@PathVariable Long notaId) {
-        notaService.deletarNota(notaId);
+        registroAcademicoService.deletarNota(notaId);
         return ResponseEntity.noContent().build();
     }
 
