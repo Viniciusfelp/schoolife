@@ -6,22 +6,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class Turma {
-
+public class Presenca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_turma")
-    private long id;
-    private String nome;
-    private String turno;
+    private Long id;
 
-    @OneToMany(mappedBy = "turma")
-    private List<Aluno> alunos;
+    @ManyToOne
+    @JoinColumn(name = "id_registro")
+    private RegistroAcademico registroAcademico;
+
+    @Column(nullable = false)
+    private LocalDate dataAula;
+
+    private boolean presente;
 }

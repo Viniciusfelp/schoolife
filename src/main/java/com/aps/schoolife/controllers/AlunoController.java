@@ -17,10 +17,10 @@ public class AlunoController {
     @Autowired
     private AlunoService alunoService;
 
-    @GetMapping
-    public List<Aluno> listarAlunos() {
+   /* @GetMapping
+    public ResponseEntity<List<Aluno>> listarAlunos() {
         return alunoService.listarAlunos();
-    }
+    }*/
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Aluno> buscarAluno(@PathVariable String cpf) {
