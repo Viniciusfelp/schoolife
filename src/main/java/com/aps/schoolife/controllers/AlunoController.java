@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,11 +25,8 @@ public class AlunoController {
     public ResponseEntity<Aluno> buscarAluno(@PathVariable String cpf) {
         Optional<Aluno> alunoOptional = alunoService.buscarAluno(cpf);
 
-        if (alunoOptional.isPresent()) {
-            return ResponseEntity.ok(alunoOptional.get());
-        }
+        return alunoOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -62,6 +58,25 @@ public class AlunoController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+    @PostMapping("/{alunoId}/atividades/{atividadeId}")
+    public ResponseEntity<Aluno> inscreverAlunoEmAtividade(@PathVariable String alunoId, @PathVariable Long atividadeId) {
+        try {
+            Aluno aluno = alunoService.inscreverAlunoEmAtividade(alunoId, atividadeId);
+            return new ResponseEntity<>(aluno, HttpStatus.OK);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/{alunoId}/atividades/{atividadeId}")
+    public ResponseEntity<Aluno> removerAlunoDaAtividade(@PathVariable String alunoId, @PathVariable Long atividadeId) {
+        try {
+            Aluno aluno = alunoService.removerAlunoDaAtividade(alunoId, atividadeId);
+            return new ResponseEntity<>(aluno, HttpStatus.OK);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
 
