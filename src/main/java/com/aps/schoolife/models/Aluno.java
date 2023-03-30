@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,6 +22,10 @@ public class Aluno {
         @ManyToOne
         @JoinColumn(name = "id_turma")
         private Turma turma;
+
+        @ManyToMany(mappedBy = "participantes")
+        private List<AtividadeExtraCurricular> atividadesExtracurriculares;
+
 
 
 }
