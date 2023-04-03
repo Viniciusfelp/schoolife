@@ -1,8 +1,10 @@
 package com.aps.schoolife.controllers;
 
+import org.springframework.ui.Model;
 import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Aluno;
 import com.aps.schoolife.services.AlunoService;
+import com.aps.schoolife.services.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +32,27 @@ public class AlunoController {
 
     }
 
-    @PostMapping
+    @Autowired
+    private TurmaService turmaService;
+
+    @GetMapping("/cadastrarAluno")
+    public String cadastrarAluno(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        model.addAttribute("turmas", turmaService.listarTurmas());
+        return "alunoForm";
+    }
+
+    @PostMapping("/cadastrarAluno")
+    public String saveAluno(Aluno aluno) {
+        alunoService.cadastrarAluno(aluno);
+        return "redirect:/alunos";
+    }
+
+    /*@PostMapping
     public ResponseEntity<Aluno> cadastrarAluno(@RequestBody Aluno aluno) {
         Aluno novoAluno = alunoService.cadastrarAluno(aluno);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
-    }
+    }*/
 
     @PutMapping("/{cpf}")
     public ResponseEntity<Aluno> atualizarAluno(@PathVariable String cpf, @RequestBody Aluno aluno) {
