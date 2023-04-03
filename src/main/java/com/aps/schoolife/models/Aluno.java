@@ -15,11 +15,11 @@ import java.util.Collection;
 @AllArgsConstructor
 public class Aluno {
         @Id
-        @Column(name = "cpf")
         private String cpf;
         private String nome;
         private String email;
         @ManyToOne
+        @JoinColumn(name = "id_turma")
         private Turma turma;
 
 

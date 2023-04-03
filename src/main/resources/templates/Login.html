@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<h1>Login</h1>
-<div>
-  <a th:href="@{/oauth2/authorization/google}" href="google">Login com o Google</a>
+<div class="container">
+  <h2>Login</h2>
+  <a class="google-btn" th:href="@{/oauth2/authorization/google}">
+    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google Logo" />
+    Login with Google
+  </a>
 </div>
 </body>
 </html>
