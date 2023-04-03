@@ -1,5 +1,6 @@
 package com.aps.schoolife.controllers;
 
+import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Aluno;
 import com.aps.schoolife.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.Optional;
 public class AlunoController {
 
     @Autowired
-    private AlunoService alunoService;
+    private Fachada alunoService;
 
    /* @GetMapping
     public ResponseEntity<List<Aluno>> listarAlunos() {
@@ -23,7 +24,7 @@ public class AlunoController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Aluno> buscarAluno(@PathVariable String cpf) {
-        Optional<Aluno> alunoOptional = alunoService.buscarAluno(cpf);
+        Optional<Aluno> alunoOptional = alunoService.buscarAlunoPorId(cpf);
 
         return alunoOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
@@ -31,14 +32,13 @@ public class AlunoController {
 
     @PostMapping
     public ResponseEntity<Aluno> cadastrarAluno(@RequestBody Aluno aluno) {
-        Aluno novoAluno = alunoService.criarAluno(aluno);
-
+        Aluno novoAluno = alunoService.cadastrarAluno(aluno);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoAluno);
     }
 
     @PutMapping("/{cpf}")
     public ResponseEntity<Aluno> atualizarAluno(@PathVariable String cpf, @RequestBody Aluno aluno) {
-        Optional<Aluno> alunoOptional = alunoService.buscarAluno(cpf);
+        Optional<Aluno> alunoOptional = alunoService.buscarAlunoPorId(cpf);
 
         if (alunoOptional.isPresent()) {
             Aluno alunoAtualizado = alunoService.atualizarAluno(cpf, aluno);
@@ -50,10 +50,10 @@ public class AlunoController {
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Void> removerAluno(@PathVariable String cpf) {
-        Optional<Aluno> alunoOptional = alunoService.buscarAluno(cpf);
+        Optional<Aluno> alunoOptional = alunoService.buscarAlunoPorId(cpf);
 
         if (alunoOptional.isPresent()) {
-            alunoService.excluirAluno(cpf);
+            alunoService.deletarAluno(cpf);
             return ResponseEntity.noContent().build();
         }
 

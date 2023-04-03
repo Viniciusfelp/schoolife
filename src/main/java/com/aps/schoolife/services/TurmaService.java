@@ -22,7 +22,7 @@ public class TurmaService {
         return turmaRepository.findAll();
     }
 
-    public Optional<Turma> buscarTurma(Long id) {
+    public Optional<Turma> buscarTurmaPorId(Long id) {
         return turmaRepository.findById(id);
     }
 

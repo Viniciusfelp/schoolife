@@ -1,7 +1,7 @@
 package com.aps.schoolife.controllers;
 
+import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Professor;
-import com.aps.schoolife.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProfessorController {
 
     @Autowired
-    private ProfessorService professorService;
+    private Fachada professorService;
 
     @GetMapping
     public ResponseEntity<Iterable<Professor>> listarProfessores() {
@@ -21,7 +21,7 @@ public class ProfessorController {
 
     @GetMapping("/{cpf}")
     public ResponseEntity<Professor> buscarPorCpf(@PathVariable String cpf) {
-        Professor professor = professorService.buscarPorCpf(cpf);
+        Professor professor = professorService.buscarProfessorPorId(cpf);
         if (professor != null) {
             return ResponseEntity.ok(professor);
         } else {
@@ -38,7 +38,7 @@ public class ProfessorController {
     @PutMapping("/{cpf}")
     public ResponseEntity<Professor> atualizarProfessor(@PathVariable String cpf, @RequestBody Professor professor) {
         professor.setCpf(cpf);
-        professor = professorService.atualizar(cpf, professor);
+        professor = professorService.atualizarProfessor(cpf, professor);
         if (professor != null) {
             return ResponseEntity.ok(professor);
         } else {
@@ -48,7 +48,7 @@ public class ProfessorController {
 
     @DeleteMapping("/{cpf}")
     public ResponseEntity<Void> removerProfessor(@PathVariable String cpf) {
-        professorService.removerPorCpf(cpf);
+        professorService.deletarProfessor(cpf);
         return ResponseEntity.noContent().build();
     }
 }

@@ -20,7 +20,7 @@ public class ProfessorService {
         return professorRepository.findAll();
     }
 
-    public Professor buscarPorCpf(String cpf) {
+    public Professor buscarProfessorPorId(String cpf) {
         Professor professorAux = null;
         Optional<Professor> professor = professorRepository.findById(cpf);
 
@@ -36,7 +36,7 @@ public class ProfessorService {
         return professorRepository.save(professor);
     }
 
-    public void removerPorCpf(String id) {
+    public void deletarProfessor(String id) {
         if (professorRepository.existsById(id)) {
             professorRepository.deleteById(id);
         } else {
@@ -44,7 +44,7 @@ public class ProfessorService {
         }
     }
 
-    public Professor atualizar(String id, Professor professorAtualizado) {
+    public Professor atualizarProfessor(String id, Professor professorAtualizado) {
         Optional<Professor> professorExistente = professorRepository.findById(id);
 
         if (professorExistente.isPresent()) {
