@@ -18,10 +18,17 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/css/**", "/js/**").permitAll()
                         .requestMatchers(loginAndErrorRequestMatcher).permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(Customizer.withDefaults());
+                .oauth2Login()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/home", true)
+                .and()
+                .logout()
+                    .logoutSuccessUrl("/login");
+
         return http.build();
     }
 }
