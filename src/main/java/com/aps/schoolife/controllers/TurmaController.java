@@ -1,5 +1,6 @@
 package com.aps.schoolife.controllers;
 
+import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Turma;
 import com.aps.schoolife.services.DisciplinaService;
 import com.aps.schoolife.services.TurmaService;
@@ -14,10 +15,7 @@ import java.util.Optional;
 public class TurmaController {
 
     @Autowired
-    private TurmaService turmaService;
-
-    @Autowired
-    private DisciplinaService disciplinaService;
+    private Fachada turmaService;
 
     @GetMapping("/turmas")
     public ResponseEntity<List<Turma>> listarTurmas() {
@@ -26,7 +24,7 @@ public class TurmaController {
 
     @GetMapping("/turmas/{id}")
     public ResponseEntity<Turma> buscarTurma(@PathVariable Long id) {
-        Optional<Turma> turmaOptional = turmaService.buscarTurma(id);
+        Optional<Turma> turmaOptional = turmaService.buscarTurmaPorId(id);
         if(turmaOptional.isPresent()) {
             return ResponseEntity.ok(turmaOptional.get());
         }else{
@@ -36,7 +34,7 @@ public class TurmaController {
 
     @PutMapping("/turmas/{id}")
     public ResponseEntity<Turma> atualizarTurma(@PathVariable Long id, @RequestBody Turma turma) {
-        Optional<Turma> turmaOptional = turmaService.buscarTurma(id);
+        Optional<Turma> turmaOptional = turmaService.buscarTurmaPorId(id);
         if(turmaOptional.isPresent()) {
             return ResponseEntity.ok(turmaService.atualizarTurma(id, turma));
         }else{
@@ -46,7 +44,7 @@ public class TurmaController {
 
     @DeleteMapping("/turmas/{id}")
     public ResponseEntity<Void> deletarTurma(@PathVariable Long id) {
-        Optional<Turma> turmaOptional = turmaService.buscarTurma(id);
+        Optional<Turma> turmaOptional = turmaService.buscarTurmaPorId(id);
         if(turmaOptional.isPresent()) {
             turmaService.deletarTurma(id);
             return ResponseEntity.noContent().build();

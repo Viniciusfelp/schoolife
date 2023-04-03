@@ -1,5 +1,6 @@
 package com.aps.schoolife.controllers;
 
+import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Disciplina;
 import com.aps.schoolife.services.DisciplinaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 public class DisciplinaController {
 
     @Autowired
-    private DisciplinaService disciplinaService;
+    private Fachada disciplinaService;
 
     //criar disciplina
     @PostMapping("/disciplinas")

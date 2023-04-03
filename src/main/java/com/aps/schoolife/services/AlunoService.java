@@ -23,11 +23,11 @@ public class AlunoService {
         return alunoRepository.findAll();
     }
 
-    public Optional<Aluno> buscarAluno(String cpf) {
+    public Optional<Aluno> buscarAlunoPorId(String cpf) {
         return alunoRepository.findById(cpf);
     }
 
-    public Aluno criarAluno(Aluno aluno) {
+    public Aluno cadastrarAluno(Aluno aluno) {
         return alunoRepository.save(aluno);
     }
 
@@ -40,7 +40,7 @@ public class AlunoService {
         return alunoRepository.save(alunoAtualizado);
     }
 
-    public void excluirAluno(String cpf) {
+    public void deletarAluno(String cpf) {
         Optional<Aluno> alunoExistente = alunoRepository.findById(cpf);
         if (alunoExistente.isPresent()) {
             alunoRepository.deleteById(cpf);
