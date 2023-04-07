@@ -1,5 +1,6 @@
 package com.aps.schoolife.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import com.aps.schoolife.fachada.Fachada;
 import com.aps.schoolife.models.Aluno;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/alunos")
+@Controller
+//@RequestMapping("/alunos")
 public class AlunoController {
 
     @Autowired
@@ -35,14 +36,14 @@ public class AlunoController {
     @Autowired
     private TurmaService turmaService;
 
-    @GetMapping("/cadastrarAluno")
+    @GetMapping("alunos/cadastrarAluno")
     public String cadastrarAluno(Model model) {
         model.addAttribute("aluno", new Aluno());
         model.addAttribute("turmas", turmaService.listarTurmas());
         return "alunoForm";
     }
 
-    @PostMapping("/cadastrarAluno")
+    @PostMapping("alunos/cadastrarAluno")
     public String saveAluno(Aluno aluno) {
         alunoService.cadastrarAluno(aluno);
         return "redirect:/alunos";
