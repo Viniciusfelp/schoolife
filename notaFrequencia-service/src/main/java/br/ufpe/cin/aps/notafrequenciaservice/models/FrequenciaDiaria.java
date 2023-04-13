@@ -1,4 +1,4 @@
-package br.ufpe.cin.aps.servicoregistronotafrequencia.models;
+package br.ufpe.cin.aps.notafrequenciaservice.models;
 
 import br.ufpe.cin.aps.notafrequenciaservice.models.NotaFrequencia;
 import jakarta.persistence.*;

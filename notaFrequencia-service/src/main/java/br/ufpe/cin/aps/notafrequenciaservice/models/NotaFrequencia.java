@@ -1,6 +1,6 @@
 package br.ufpe.cin.aps.notafrequenciaservice.models;
 
-import br.ufpe.cin.aps.servicoregistronotafrequencia.models.FrequenciaDiaria;
+import br.ufpe.cin.aps.notafrequenciaservice.models.FrequenciaDiaria;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

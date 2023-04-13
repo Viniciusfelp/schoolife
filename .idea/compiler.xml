@@ -10,10 +10,12 @@
         <module name="academic-service" />
         <module name="professor-service" />
         <module name="disciplina-service" />
-        <module name="notaFrequencia-service" />
         <module name="atividadeExtraCurricular-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="schoolife" target="19" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
