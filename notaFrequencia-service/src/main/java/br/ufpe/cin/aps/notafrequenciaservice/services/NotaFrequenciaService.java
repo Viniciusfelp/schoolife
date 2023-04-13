@@ -1,7 +1,6 @@
 package br.ufpe.cin.aps.notafrequenciaservice.services;
 
 import br.ufpe.cin.aps.notafrequenciaservice.models.*;
-import br.ufpe.cin.aps.servicoregistronotafrequencia.models.FrequenciaDiaria;
 import br.ufpe.cin.aps.notafrequenciaservice.repositories.NotaFrequenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

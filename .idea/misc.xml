@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/academic-service/notaFrequencia-service/pom.xml" />
         <option value="$PROJECT_DIR$/academic-service/notaFrequencia-service/atividadeExtraCurricular-service/pom.xml" />
         <option value="$PROJECT_DIR$/atividadeExtraCurricular-service/pom.xml" />
+        <option value="$PROJECT_DIR$/notaFrequencia-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -28,6 +29,8 @@
         <option value="$PROJECT_DIR$/class-service/pom.xml" />
         <option value="$PROJECT_DIR$/discipline-service/pom.xml" />
         <option value="$PROJECT_DIR$/room-schedule-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services-l/disciplina-service/pom.xml" />
+        <option value="$PROJECT_DIR$/services-l/professor-service/pom.xml" />
         <option value="$PROJECT_DIR$/student-teacher-service/pom.xml" />
       </set>
     </option>

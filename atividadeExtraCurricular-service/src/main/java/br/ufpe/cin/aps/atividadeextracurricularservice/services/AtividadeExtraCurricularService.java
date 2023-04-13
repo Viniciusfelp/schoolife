@@ -43,7 +43,7 @@ public class AtividadeExtraCurricularService {
 
     public void inscreverAluno(String alunoMatricula, Long atividadeId) {
         AtividadeExtraCurricular atividade = findById(atividadeId);
-        atividade.getAlunoInscritos().add(new Inscricao(alunoMatricula, atividade));
+        atividade.getAlunosInscritos().add(new Inscricao(alunoMatricula, atividade));
         atividadeExtraCurricularRepository.save(atividade);
     }
 }

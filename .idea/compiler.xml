@@ -8,12 +8,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="academic-service" />
-        <module name="professor-service" />
-        <module name="disciplina-service" />
         <module name="atividadeExtraCurricular-service" />
+        <module name="notaFrequencia-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="disciplina-service" target="17" />
+      <module name="professor-service" target="17" />
       <module name="schoolife" target="19" />
     </bytecodeTargetLevel>
   </component>
