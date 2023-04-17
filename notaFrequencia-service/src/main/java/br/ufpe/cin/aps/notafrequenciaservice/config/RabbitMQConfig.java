@@ -1,6 +1,6 @@
 package br.ufpe.cin.aps.notafrequenciaservice.config;
 
-import br.ufpe.cin.aps.notafrequenciaservice.consumers.NotaFrequenciaConsumer;
+import br.ufpe.cin.aps.notafrequenciaservice.consumers.FrequenciaConsumer;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -45,7 +45,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(NotaFrequenciaConsumer consumer) {
+    public MessageListenerAdapter listenerAdapter(FrequenciaConsumer consumer) {
         MessageListenerAdapter adapter = new MessageListenerAdapter(consumer, "handleMessage");
         adapter.setMessageConverter(new Jackson2JsonMessageConverter());
         return adapter;
