@@ -10,8 +10,8 @@
         <module name="api-gateway" />
         <module name="auth-service" />
         <module name="academic-service" />
-        <module name="atividadeExtraCurricular-service" />
         <module name="notaFrequencia-service" />
+        <module name="atividadeExtraCurricular-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
