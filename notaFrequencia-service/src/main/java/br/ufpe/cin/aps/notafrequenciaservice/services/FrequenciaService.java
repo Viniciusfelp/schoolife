@@ -71,4 +71,13 @@ public class FrequenciaService {
         }
     }
 
+    public void createFrequenciaFromMessage(FrequenciaMessage frequenciaMessage) {
+        Frequencia frequencia = new Frequencia();
+        frequencia.setAlunoMatricula(frequenciaMessage.getAlunoMatricula());
+        frequencia.setDisciplinaId(frequenciaMessage.getDisciplinaId());
+        frequencia.setPresenca(frequenciaMessage.isPresente());
+        frequencia.setData(frequenciaMessage.getData());
+        save(frequencia);
+    }
+
 }
