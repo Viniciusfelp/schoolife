@@ -43,7 +43,7 @@ services:
       - "8082:8082"
 
   auth-service:
-    build: ./auth-service
+    build: ../auth-service
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/academics_db
       - SPRING_DATASOURCE_USERNAME=academics_user
