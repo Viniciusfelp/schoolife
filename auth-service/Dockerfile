@@ -10,7 +10,7 @@ COPY ${JAR_FILE} ${APP_HOME}/app.jar
 
 # Defina o diretório de trabalho e a porta padrão
 WORKDIR ${APP_HOME}
-EXPOSE 8081
+EXPOSE 8080
 
 # Comando para iniciar o serviço
 ENTRYPOINT ["java", "-jar", "app.jar"]

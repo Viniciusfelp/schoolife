@@ -7,10 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="api-gateway" />
+        <module name="auth-service" />
         <module name="academic-service" />
         <module name="atividadeExtraCurricular-service" />
         <module name="notaFrequencia-service" />
-        <module name="AuthService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,9 +22,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="AuthService" options="-parameters" />
       <module name="academic-service" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
       <module name="atividadeExtraCurricular-service" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
       <module name="disciplina-service" options="-parameters" />
       <module name="notaFrequencia-service" options="-parameters" />
       <module name="professor-service" options="-parameters" />
