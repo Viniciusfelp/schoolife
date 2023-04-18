@@ -16,11 +16,13 @@ public class AlunoService {
     @Autowired
     private AlunoProducer alunoProducer;
 
-
-    public void enviarAluno(Aluno aluno) {
-        alunoProducer.sendAluno(aluno);
+    public void adicionarNota(Nota nota) {
+        alunoProducer.sendNota(nota);
     }
 
+    public void adicionarFrequencia(Frequencia frequencia) {
+        alunoProducer.sendFrequencia(frequencia);
+    }
 
 
     public Aluno save(Aluno aluno) {

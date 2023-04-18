@@ -2,22 +2,28 @@ package br.ufpe.cin.aps.academicservice.producers;
 
 import br.ufpe.cin.aps.academicservice.models.Aluno;
 import br.ufpe.cin.aps.academicservice.config.RabbitMQConfig;
-import org.springframework.amqp.core.DirectExchange;
+import br.ufpe.cin.aps.academicservice.models.Frequencia;
+import br.ufpe.cin.aps.academicservice.models.Nota;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.naming.directory.DirContext;
 
 @Component
 public class AlunoProducer {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    @Autowired
-    private DirectExchange exchange;
+
     @Autowired
     private RabbitMQConfig config;
+
+    @Value("${rabbitmq.queue.notas}")
+    private String notasQueue;
+
+    @Value("${rabbitmq.queue.frequencias}")
+    private String frequenciasQueue;
+
 
     public void sendCreateAlunoMessage(Aluno aluno) {
         rabbitTemplate.convertAndSend("aluno.exchange", "aluno.create", aluno);
@@ -32,9 +38,12 @@ public class AlunoProducer {
         rabbitTemplate.convertAndSend("aluno.exchange", "aluno.delete", alunoId);
     }
 
-    public void sendAluno(Aluno aluno) {
-        rabbitTemplate.convertAndSend(exchange.getName(), "aluno-routing-key", aluno);
+
+    public void sendNota(Nota nota) {
+        rabbitTemplate.convertAndSend(notasQueue, nota);
     }
 
-
+    public void sendFrequencia(Frequencia frequencia) {
+        rabbitTemplate.convertAndSend(frequenciasQueue, frequencia);
+    }
 }

@@ -1,5 +1,6 @@
 package br.ufpe.cin.aps.notafrequenciaservice.consumers;
 
+import br.ufpe.cin.aps.notafrequenciaservice.models.Frequencia;
 import br.ufpe.cin.aps.notafrequenciaservice.models.FrequenciaMessage;
 import br.ufpe.cin.aps.notafrequenciaservice.services.FrequenciaService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,6 +15,12 @@ public class FrequenciaConsumer {
     @RabbitListener(queues = "${frequencia.queue.name}")
     public void receiveFrequenciaMessage(FrequenciaMessage frequenciaMessage) {
         frequenciaService.createFrequenciaFromMessage(frequenciaMessage);
+    }
+
+
+    @RabbitListener(queues = "${rabbitmq.queue.frequencias}")
+    public void receiveFrequencia(FrequenciaMessage frequencia) {
+        frequenciaService.addFrequencia(frequencia);
     }
 }
 

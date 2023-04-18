@@ -22,10 +22,10 @@ public class FrequenciaController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${rabbitmq.exchange}")
+    @Value("${frequencia.exchange}")
     private String exchange;
 
-    @Value("${rabbitmq.routingkey}")
+    @Value("${frequencia.routingkey}")
     private String routingKey;
 
     @PostMapping

@@ -1,5 +1,8 @@
 package br.ufpe.cin.aps.academicservice.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -40,6 +43,16 @@ public class RabbitMQConfig {
     Queue alunoQueue() {
         return new Queue(alunoQueue, true);
     }
+    @Bean
+    public FanoutExchange alunoExchange() {
+        return new FanoutExchange("aluno.exchange");
+    }
+
+    @Bean
+    public Binding alunoBinding(FanoutExchange alunoExchange, Queue alunoQueue) {
+        return BindingBuilder.bind(alunoQueue).to(alunoExchange);
+    }
+
 
     @Bean
     Queue professorQueue() {

@@ -26,4 +26,6 @@ public class AlunoConsumer {
     public void consumeDeleteAlunoMessage(String alunoId) {
         alunoService.delete(alunoId);
     }
+
+
 }

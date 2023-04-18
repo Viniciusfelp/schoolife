@@ -16,4 +16,11 @@ public class NotaConsumer {
     public void handleMessage(NotaMessage notaMessage) {
         notaService.createNotaFromMessage(notaMessage);
     }
+
+    @RabbitListener(queues = "${rabbitmq.queue.notas}")
+    public void receiveNota(NotaMessage nota) {
+        notaService.createNotaFromMessage(nota);
+    }
+
 }
+

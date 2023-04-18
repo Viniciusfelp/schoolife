@@ -1,6 +1,8 @@
 package br.ufpe.cin.aps.academicservice.controllers;
 
 import br.ufpe.cin.aps.academicservice.models.Aluno;
+import br.ufpe.cin.aps.academicservice.models.Frequencia;
+import br.ufpe.cin.aps.academicservice.models.Nota;
 import br.ufpe.cin.aps.academicservice.producers.AlunoProducer;
 import br.ufpe.cin.aps.academicservice.services.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,19 @@ public class AlunoController {
     public ResponseEntity<List<Aluno>> findAllAlunos() {
         List<Aluno> alunos = alunoService.findAll();
         return new ResponseEntity<>(alunos, HttpStatus.OK);
+    }
+
+    @PostMapping("/{matricula}/notas")
+    public ResponseEntity<Void> adicionarNota(@PathVariable String matricula, @RequestBody Nota nota) {
+        nota.setMatricula(matricula);
+        alunoService.adicionarNota(nota);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{matricula}/frequencias")
+    public ResponseEntity<Void> adicionarFrequencia(@PathVariable String matricula, @RequestBody Frequencia frequencia) {
+        frequencia.setMatricula(matricula);
+        alunoService.adicionarFrequencia(frequencia);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
