@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/auth-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/academic-service/notaFrequencia-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/academic-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/academic-service/src/main/resources" charset="UTF-8" />
@@ -10,6 +8,8 @@
     <file url="file://$PROJECT_DIR$/schoolife-microservices/api-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/atividadeExtraCurricular-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/atividadeExtraCurricular-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/schoolife-microservices/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/schoolife-microservices/auth-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/notaFrequencia-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/schoolife-microservices/notaFrequencia-service/src/main/resources" charset="UTF-8" />
   </component>
