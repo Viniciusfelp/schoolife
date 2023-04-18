@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/schoolife-microservices/academic-service/academic-service.iml" filepath="$PROJECT_DIR$/schoolife-microservices/academic-service/academic-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/schoolife.iml" filepath="$PROJECT_DIR$/.idea/schoolife.iml" />
     </modules>
   </component>
 </project>

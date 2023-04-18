@@ -29,6 +29,7 @@
         <option value="$PROJECT_DIR$/schoolife-microservices/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-microservices/atividadeExtraCurricular-service/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-microservices/auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/schoolife-monolith/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

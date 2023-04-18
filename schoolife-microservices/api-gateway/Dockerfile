@@ -1,5 +1,5 @@
 # Use a imagem oficial do OpenJDK como base
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:17-jdk-jammy
 
 # Variáveis de ambiente para o serviço
 ARG JAR_FILE=target/*.jar

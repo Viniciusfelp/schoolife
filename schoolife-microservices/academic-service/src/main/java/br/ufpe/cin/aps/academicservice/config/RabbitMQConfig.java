@@ -1,9 +1,6 @@
 package br.ufpe.cin.aps.academicservice.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -43,6 +40,7 @@ public class RabbitMQConfig {
     Queue alunoQueue() {
         return new Queue(alunoQueue, true);
     }
+
     @Bean
     public FanoutExchange alunoExchange() {
         return new FanoutExchange("aluno.exchange");
@@ -52,7 +50,6 @@ public class RabbitMQConfig {
     public Binding alunoBinding(FanoutExchange alunoExchange, Queue alunoQueue) {
         return BindingBuilder.bind(alunoQueue).to(alunoExchange);
     }
-
 
     @Bean
     Queue professorQueue() {
@@ -65,8 +62,38 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Queue turmaQueue() {
+    Queue turmaCreateQueue() {
         return new Queue(turmaQueue, true);
+    }
+
+    @Bean
+    Queue turmaUpdateQueue() {
+        return new Queue(turmaQueue, true);
+    }
+
+    @Bean
+    Queue turmaDeleteQueue() {
+        return new Queue(turmaQueue, true);
+    }
+
+    @Bean
+    DirectExchange turmaExchange() {
+        return new DirectExchange("turma.exchange");
+    }
+
+    @Bean
+    Binding turmaCreateBinding(Queue turmaCreateQueue, DirectExchange turmaExchange) {
+        return BindingBuilder.bind(turmaCreateQueue).to(turmaExchange).with("turma.create");
+    }
+
+    @Bean
+    Binding turmaUpdateBinding(Queue turmaUpdateQueue, DirectExchange turmaExchange) {
+        return BindingBuilder.bind(turmaUpdateQueue).to(turmaExchange).with("turma.update");
+    }
+
+    @Bean
+    Binding turmaDeleteBinding(Queue turmaDeleteQueue, DirectExchange turmaExchange) {
+        return BindingBuilder.bind(turmaDeleteQueue).to(turmaExchange).with("turma.delete");
     }
 
     @Bean

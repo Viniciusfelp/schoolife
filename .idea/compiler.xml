@@ -12,12 +12,12 @@
         <module name="academic-service" />
         <module name="notaFrequencia-service" />
         <module name="atividadeExtraCurricular-service" />
+        <module name="schoolife" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="disciplina-service" target="17" />
       <module name="professor-service" target="17" />
-      <module name="schoolife" target="19" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -29,6 +29,7 @@
       <module name="disciplina-service" options="-parameters" />
       <module name="notaFrequencia-service" options="-parameters" />
       <module name="professor-service" options="-parameters" />
+      <module name="schoolife" options="-parameters" />
     </option>
   </component>
 </project>
