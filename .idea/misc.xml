@@ -34,6 +34,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/attendance-academic-record-service/pom.xml" />
         <option value="$PROJECT_DIR$/class-service/pom.xml" />
         <option value="$PROJECT_DIR$/discipline-service/pom.xml" />

@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: academic-service
+          uri: http://academicservice:8080
+          predicates:
+            - Path=/academicservice/**
+          filters:
+            - RewritePath=/academicservice/(?<segment>.*), /$\{segment}
+        - id: nota-frequencia-service
+          uri: http://notafrequenciaservice:8080
+          predicates:
+            - Path=/notafrequenciaservice/**
+          filters:
+            - RewritePath=/notafrequenciaservice/(?<segment>.*), /$\{segment}
+        - id: atividade-extra-curricular-service
+          uri: http://atividadeextracurricularservice:8080
+          predicates:
+            - Path=/atividadeextracurricularservice/**
+          filters:
+            - RewritePath=/atividadeextracurricularservice/(?<segment>.*), /$\{segment}
