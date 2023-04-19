@@ -1,14 +1,13 @@
 version: "3.9"
 services:
   db:
-    image: mysql:8.0
+    image: postgres:13
     environment:
-      - MYSQL_DATABASE=academics_db
-      - MYSQL_USER=academics_user
-      - MYSQL_PASSWORD=Academics@Secure123
-      - MYSQL_ROOT_PASSWORD=Root@Secure123
+      - POSTGRES_DB=academics_db
+      - POSTGRES_USER=academics_user
+      - POSTGRES_PASSWORD=Academics@Secure123
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -26,7 +25,7 @@ services:
   academic-service:
     build: ./academic-service
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/academics_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/academics_db
       - SPRING_DATASOURCE_USERNAME=academics_user
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
@@ -38,7 +37,7 @@ services:
   atividade-extracurricular-service:
     build: ./atividadeExtraCurricular-service
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/academics_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/academics_db
       - SPRING_DATASOURCE_USERNAME=academics_user
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
@@ -48,12 +47,7 @@ services:
 
   auth-service:
     build: ./auth-service
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/academics_db
-      - SPRING_DATASOURCE_USERNAME=academics_user
-      - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
-      - db
       - rabbitmq
     ports:
       - "8083:8083"
@@ -61,7 +55,7 @@ services:
   nota-frequencia-service:
     build: ./notaFrequencia-service
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/academics_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/academics_db
       - SPRING_DATASOURCE_USERNAME=academics_user
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
