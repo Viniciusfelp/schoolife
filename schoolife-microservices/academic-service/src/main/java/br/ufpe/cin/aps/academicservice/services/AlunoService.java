@@ -16,6 +16,7 @@ public class AlunoService {
     @Autowired
     private AlunoProducer alunoProducer;
 
+
     public void adicionarNota(Nota nota) {
         alunoProducer.sendNota(nota);
     }

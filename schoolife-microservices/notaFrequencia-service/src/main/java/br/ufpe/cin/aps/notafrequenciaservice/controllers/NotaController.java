@@ -16,6 +16,14 @@ public class NotaController {
     @Autowired
     private NotaService notaService;
 
+    @Autowired
+    private NotaRequestService notaRequestService;
+
+    @PostMapping("/request")
+    public void handleNotaRequest(@RequestBody NotaMessage notaMessage) {
+        notaService.processNotaRequest(notaMessage);
+    }
+
     @GetMapping
     public ResponseEntity<List<Nota>> findAll() {
         return ResponseEntity.ok(notaService.findAll());

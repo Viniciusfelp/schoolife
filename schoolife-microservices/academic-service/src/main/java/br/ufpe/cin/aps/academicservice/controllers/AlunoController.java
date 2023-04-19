@@ -1,16 +1,19 @@
 package br.ufpe.cin.aps.academicservice.controllers;
 
-import br.ufpe.cin.aps.academicservice.models.Aluno;
-import br.ufpe.cin.aps.academicservice.models.Frequencia;
-import br.ufpe.cin.aps.academicservice.models.Nota;
+import br.ufpe.cin.aps.academicservice.consumers.AlunoConsumer;
+import br.ufpe.cin.aps.academicservice.models.*;
 import br.ufpe.cin.aps.academicservice.producers.AlunoProducer;
 import br.ufpe.cin.aps.academicservice.services.AlunoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/alunos")
@@ -20,7 +23,31 @@ public class AlunoController {
     private AlunoProducer alunoProducer;
 
     @Autowired
+    private AlunoConsumer alunoConsumer;
+
+    @Autowired
     private AlunoService alunoService;
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @GetMapping("/{matricula}/disciplinas/{disciplinaId}/notas")
+    public ResponseEntity<String> getAlunoNotas(
+            @PathVariable("matricula") String matricula,
+            @PathVariable("disciplinaId") Long disciplinaId
+    ) {
+        NotaMessage notaMessage = new NotaMessage(matricula, disciplinaId);
+
+        try {
+            CompletableFuture<AlunoNotasDTO> alunoNotasDTOFuture = alunoConsumer.handleNotaResponse(notaMessage);
+            AlunoNotasDTO alunoNotasDTO = alunoNotasDTOFuture.get(); // Isso bloqueará até que o resultado esteja disponível
+
+            String json = objectMapper.writeValueAsString(alunoNotasDTO);
+
+            return ResponseEntity.ok(json);
+        } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao processar a solicitação");
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Void> createAluno(@RequestBody Aluno aluno) {

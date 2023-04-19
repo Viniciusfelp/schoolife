@@ -19,6 +19,14 @@ public class NotaService {
     @Autowired
     private NotaProducer notaProducer;
 
+    @Autowired
+    private AcademicServiceSender academicServiceSender;
+
+    public void processNotaRequest(NotaMessage notaMessage) {
+
+        academicServiceSender.sendNota(notaMessage);
+    }
+
     public Nota save(Nota nota) {
         return notaRepository.save(nota);
     }
@@ -65,5 +73,8 @@ public class NotaService {
             return save(nota);
         }
         return null;
+    }
+
+    public NotaMessage findNotaByAlunoAndDisciplina(String alunoMatricula, Long disciplinaId) {
     }
 }

@@ -1,23 +1,27 @@
 package br.ufpe.cin.aps.notafrequenciaservice.config;
 
-import br.ufpe.cin.aps.notafrequenciaservice.consumers.FrequenciaConsumer;
 import org.springframework.amqp.core.*;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RabbitMQConfig {
 
+    @Value("${rabbitmq.queue.notas}")
+    private String notasQueueName;
+
+    @Value("${rabbitmq.queue.frequencias}")
+    private String frequenciasQueueName;
+
     @Bean
-    public Queue queue() {
-        return new Queue("notafrequencia.queue", false);
+    public Queue notasQueue() {
+        return new Queue(notasQueueName, true);
+    }
+
+    @Bean
+    public Queue frequenciasQueue() {
+        return new Queue(frequenciasQueueName, true);
     }
 
     @Bean
@@ -31,30 +35,62 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+    public Queue requestNotasQueue() {
+        return new Queue("request.notas.queue", true);
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
-        return rabbitTemplate;
+    public Queue responseNotasQueue() {
+        return new Queue("response.notas.queue", true);
     }
 
     @Bean
-    public SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames("notafrequencia.queue");
-        container.setMessageListener(listenerAdapter);
-        return container;
+    public DirectExchange requestNotasExchange() {
+        return new DirectExchange("request.notas.exchange");
     }
 
     @Bean
-    public MessageListenerAdapter listenerAdapter(FrequenciaConsumer consumer) {
-        MessageListenerAdapter adapter = new MessageListenerAdapter(consumer, "handleMessage");
-        adapter.setMessageConverter(new Jackson2JsonMessageConverter());
-        return adapter;
+    public DirectExchange responseNotasExchange() {
+        return new DirectExchange("response.notas.exchange");
+    }
+
+    @Bean
+    public Binding requestNotasBinding(Queue requestNotasQueue, DirectExchange requestNotasExchange) {
+        return BindingBuilder.bind(requestNotasQueue).to(requestNotasExchange).with("request.notas");
+    }
+
+    @Bean
+    public Binding responseNotasBinding(Queue responseNotasQueue, DirectExchange responseNotasExchange) {
+        return BindingBuilder.bind(responseNotasQueue).to(responseNotasExchange).with("response.notas");
+    }
+
+    @Bean
+    public Queue requestFrequenciasQueue() {
+        return new Queue("request.frequencias.queue", true);
+    }
+
+    @Bean
+    public Queue responseFrequenciasQueue() {
+        return new Queue("response.frequencias.queue", true);
+    }
+
+    @Bean
+    public DirectExchange requestFrequenciasExchange() {
+        return new DirectExchange("request.frequencias.exchange");
+    }
+
+    @Bean
+    public DirectExchange responseFrequenciasExchange() {
+        return new DirectExchange("response.frequencias.exchange");
+    }
+
+    @Bean
+    public Binding requestFrequenciasBinding(Queue requestFrequenciasQueue, DirectExchange requestFrequenciasExchange) {
+        return BindingBuilder.bind(requestFrequenciasQueue).to(requestFrequenciasExchange).with("request.frequencias");
+    }
+
+    @Bean
+    public Binding responseFrequenciasBinding(Queue responseFrequenciasQueue, DirectExchange responseFrequenciasExchange) {
+        return BindingBuilder.bind(responseFrequenciasQueue).to(responseFrequenciasExchange).with("response.frequencias");
     }
 }

@@ -24,6 +24,8 @@ public class AlunoProducer {
     @Value("${rabbitmq.queue.frequencias}")
     private String frequenciasQueue;
 
+    @Value("${rabbitmq.exchange.requestNotas}")
+    private String requestNotasExchange;
 
     public void sendCreateAlunoMessage(Aluno aluno) {
         rabbitTemplate.convertAndSend("aluno.exchange", "aluno.create", aluno);
@@ -39,6 +41,8 @@ public class AlunoProducer {
     }
 
 
+
+
     public void sendNota(Nota nota) {
         rabbitTemplate.convertAndSend(notasQueue, nota);
     }
@@ -46,4 +50,7 @@ public class AlunoProducer {
     public void sendFrequencia(Frequencia frequencia) {
         rabbitTemplate.convertAndSend(frequenciasQueue, frequencia);
     }
+
+
+
 }
