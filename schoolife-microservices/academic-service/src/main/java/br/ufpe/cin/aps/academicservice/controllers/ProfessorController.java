@@ -1,7 +1,6 @@
 package br.ufpe.cin.aps.academicservice.controllers;
 
 import br.ufpe.cin.aps.academicservice.models.Professor;
-import br.ufpe.cin.aps.academicservice.producers.ProfessorProducer;
 import br.ufpe.cin.aps.academicservice.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,26 +14,23 @@ import java.util.List;
 public class ProfessorController {
 
     @Autowired
-    private ProfessorProducer professorProducer;
-
-    @Autowired
     private ProfessorService professorService;
 
     @PostMapping
     public ResponseEntity<Void> createProfessor(@RequestBody Professor professor) {
-        professorProducer.sendCreateProfessorMessage(professor);
+        professorService.save(professor);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{matricula}")
     public ResponseEntity<Void> updateProfessor(@PathVariable String matricula, @RequestBody Professor professor) {
-        professorProducer.sendUpdateProfessorMessage(matricula, professor);
+        professorService.update(matricula, professor);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{matricula}")
     public ResponseEntity<Void> deleteProfessor(@PathVariable String matricula) {
-        professorProducer.sendDeleteProfessorMessage(matricula);
+        professorService.delete(matricula);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -50,4 +46,3 @@ public class ProfessorController {
         return new ResponseEntity<>(professores, HttpStatus.OK);
     }
 }
-

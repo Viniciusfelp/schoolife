@@ -25,7 +25,7 @@ public class TipoUsuarioController {
     @GetMapping
     public ResponseEntity<?> getUserTypeByEmail(@RequestParam("email") String email) {
         if (alunoRepository.findByEmail(email).isPresent()) {
-            return ResponseEntity.ok(Collections.singletonMap("userType", "student"));
+            return ResponseEntity.ok(Collections.singletonMap("userType", "aluno"));
         } else if (professorRepository.findByEmail(email).isPresent()) {
             return ResponseEntity.ok(Collections.singletonMap("userType", "professor"));
         } else {

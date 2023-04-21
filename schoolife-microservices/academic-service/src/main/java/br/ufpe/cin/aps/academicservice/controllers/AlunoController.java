@@ -20,9 +20,6 @@ import java.util.concurrent.ExecutionException;
 public class AlunoController {
 
     @Autowired
-    private AlunoProducer alunoProducer;
-
-    @Autowired
     private AlunoConsumer alunoConsumer;
 
     @Autowired
@@ -49,22 +46,21 @@ public class AlunoController {
         }
     }
 
-
     @PostMapping
     public ResponseEntity<Void> createAluno(@RequestBody Aluno aluno) {
-        alunoProducer.sendCreateAlunoMessage(aluno);
+        alunoService.save(aluno);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{matricula}")
     public ResponseEntity<Void> updateAluno(@PathVariable String matricula, @RequestBody Aluno aluno) {
-        alunoProducer.sendUpdateAlunoMessage(matricula, aluno);
+        alunoService.update(matricula, aluno);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{matricula}")
     public ResponseEntity<Void> deleteAluno(@PathVariable String matricula) {
-        alunoProducer.sendDeleteAlunoMessage(matricula);
+        alunoService.delete(matricula);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -93,4 +89,5 @@ public class AlunoController {
         alunoService.adicionarFrequencia(frequencia);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 }
