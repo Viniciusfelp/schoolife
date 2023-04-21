@@ -1,9 +1,9 @@
 package br.ufpe.cin.aps.academicservice.producers;
 
-import br.ufpe.cin.aps.academicservice.models.Aluno;
+import br.ufpe.cin.aps.academicservice.models.*;
 import br.ufpe.cin.aps.academicservice.config.RabbitMQConfig;
 import br.ufpe.cin.aps.academicservice.models.Frequencia;
-import br.ufpe.cin.aps.academicservice.models.Nota;
+import br.ufpe.cin.aps.academicservice.models.NotaMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +43,7 @@ public class AlunoProducer {
 
 
 
-    public void sendNota(Nota nota) {
+    public void sendNota(NotaMessage nota) {
         rabbitTemplate.convertAndSend(notasQueue, nota);
     }
 
@@ -51,6 +51,8 @@ public class AlunoProducer {
         rabbitTemplate.convertAndSend(frequenciasQueue, frequencia);
     }
 
-
+    public NotaMessage requestNotas(NotaRequestMessage notaRequestMessage) {
+        return (NotaMessage) rabbitTemplate.convertSendAndReceive("request.notas.exchange", "request.notas", notaRequestMessage);
+    }
 
 }

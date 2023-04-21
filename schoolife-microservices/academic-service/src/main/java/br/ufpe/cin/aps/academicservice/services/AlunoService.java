@@ -17,7 +17,7 @@ public class AlunoService {
     private AlunoProducer alunoProducer;
 
 
-    public void adicionarNota(Nota nota) {
+    public void adicionarNota(NotaMessage nota) {
         alunoProducer.sendNota(nota);
     }
 

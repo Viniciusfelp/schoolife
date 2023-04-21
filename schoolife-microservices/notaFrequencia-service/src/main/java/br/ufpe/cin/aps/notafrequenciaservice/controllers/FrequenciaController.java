@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/frequencias")
+@RequestMapping("/frequencias")
 public class FrequenciaController {
 
     @Autowired
@@ -22,10 +22,10 @@ public class FrequenciaController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${frequencia.exchange}")
+    @Value("${rabbitmq.exchange.frequencia}")
     private String exchange;
 
-    @Value("${frequencia.routingkey}")
+    @Value("${rabbitmq.routingkey.frequencia}")
     private String routingKey;
 
     @PostMapping
@@ -44,7 +44,7 @@ public class FrequenciaController {
     @GetMapping("/{id}")
     public ResponseEntity<Frequencia> getFrequenciaById(@PathVariable Long id) {
         Optional<Frequencia> frequencia = frequenciaService.findById(id);
-        return new ResponseEntity<>(frequencia.get(), HttpStatus.OK);
+        return frequencia.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping("/{id}")

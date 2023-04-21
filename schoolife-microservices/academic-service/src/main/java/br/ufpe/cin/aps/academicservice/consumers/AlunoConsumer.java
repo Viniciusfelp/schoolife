@@ -2,6 +2,7 @@ package br.ufpe.cin.aps.academicservice.consumers;
 
 import br.ufpe.cin.aps.academicservice.models.*;
 import br.ufpe.cin.aps.academicservice.models.NotaMessage;
+import br.ufpe.cin.aps.academicservice.producers.AlunoProducer;
 import br.ufpe.cin.aps.academicservice.services.AlunoService;
 import br.ufpe.cin.aps.academicservice.services.DisciplinaService;
 import br.ufpe.cin.aps.academicservice.services.TurmaService;
@@ -13,6 +14,9 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class AlunoConsumer {
+
+    @Autowired
+    private AlunoProducer alunoProducer;
 
     @Autowired
     private AlunoService alunoService;
@@ -39,19 +43,27 @@ public class AlunoConsumer {
     }
 
     @RabbitListener(queues = "response.notas.queue")
-    public CompletableFuture<AlunoNotasDTO> handleNotaResponse(NotaMessage notaMessage) {
+    public CompletableFuture<AlunoNotasDTO> handleNotaResponse(NotaRequestMessage notaRequestMessage) {
         return CompletableFuture.supplyAsync(() -> {
-            Aluno aluno = alunoService.findById(notaMessage.getMatricula());
-            Turma turma = turmaService.findById(aluno.getTurma().getId());
-            Disciplina disciplina = disciplinaService.findById(notaMessage.getDisciplinaId());
+            // Enviar a solicitação de notas e receber a resposta
+            NotaMessage notaMessage = alunoProducer.requestNotas(notaRequestMessage);
 
-            AlunoNotasDTO alunoNotaDTO = new AlunoNotasDTO();
-            alunoNotaDTO.setNome(aluno.getNome());
-            alunoNotaDTO.setTurma(turma.getNome());
-            alunoNotaDTO.setDisciplina(disciplina.getNome());
-            alunoNotaDTO.setNotas(notaMessage.getNotas());
+            // Processar a resposta
+            if (notaMessage != null) {
+                Aluno aluno = alunoService.findById(notaRequestMessage.getAlunoMatricula());
+                Turma turma = turmaService.findById(aluno.getTurma().getId());
+                Disciplina disciplina = disciplinaService.findById(notaRequestMessage.getDisciplinaId());
 
-            return alunoNotaDTO;
+                AlunoNotasDTO alunoNotasDTO = new AlunoNotasDTO();
+                alunoNotasDTO.setNome(aluno.getNome());
+                alunoNotasDTO.setTurma(turma.getNome());
+                alunoNotasDTO.setDisciplina(disciplina.getNome());
+                alunoNotasDTO.setNotas(notaMessage.getNotas());
+
+                return alunoNotasDTO;
+            } else {
+                throw new RuntimeException("Não foi possível obter as notas do aluno.");
+            }
         });
     }
 

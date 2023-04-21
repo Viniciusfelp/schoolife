@@ -7,8 +7,10 @@ import br.ufpe.cin.aps.notafrequenciaservice.repositories.NotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class NotaService {
@@ -52,29 +54,51 @@ public class NotaService {
     }
 
     public void createNotaFromMessage(NotaMessage notaMessage) {
-        Nota nota = new Nota();
-        nota.setAlunoMatricula(notaMessage.getAlunoMatricula());
-        nota.setDisciplinaId(notaMessage.getDisciplinaId());
-        nota.setValor(notaMessage.getValor());
-        save(nota);
+        for (Double valor : notaMessage.getValor()) {
+            Nota nota = new Nota();
+            nota.setAlunoMatricula(notaMessage.getAlunoMatricula());
+            nota.setDisciplinaId(notaMessage.getDisciplinaId());
+            nota.setValor(valor);
+            save(nota);
+        }
     }
+
 
     public void sendNotaMessage(NotaMessage notaMessage) {
         notaProducer.sendNotaMessage(notaMessage);
     }
 
-    public Nota updateNota(Long id, NotaMessage notaMessage) {
-        Optional<Nota> optionalNota = findById(id);
-        if (optionalNota.isPresent()) {
-            Nota nota = optionalNota.get();
-            nota.setAlunoMatricula(notaMessage.getAlunoMatricula());
-            nota.setDisciplinaId(notaMessage.getDisciplinaId());
-            nota.setValor(notaMessage.getValor());
-            return save(nota);
+    public List<Nota> updateNota(String alunoMatricula, Long disciplinaId, NotaMessage notaMessage) {
+        List<Nota> notas = notaRepository.findByAlunoMatriculaAndDisciplinaId(alunoMatricula, disciplinaId);
+
+        if (!notas.isEmpty()) {
+            List<Nota> updatedNotas = new ArrayList<>();
+
+            for (int i = 0; i < notas.size() && i < notaMessage.getValor().size(); i++) {
+                Nota nota = notas.get(i);
+                nota.setValor(notaMessage.getValor().get(i));
+                updatedNotas.add(save(nota));
+            }
+
+            return updatedNotas;
         }
+
         return null;
     }
 
+
     public NotaMessage findNotaByAlunoAndDisciplina(String alunoMatricula, Long disciplinaId) {
+        List<Nota> notas = notaRepository.findByAlunoMatriculaAndDisciplinaId(alunoMatricula, disciplinaId);
+        if (notas == null || notas.isEmpty()) {
+            return null;
+        }
+
+        List<Double> notaValues = notas.stream()
+                .map(Nota::getValor)
+                .collect(Collectors.toList());
+
+        return new NotaMessage(alunoMatricula, disciplinaId, notaValues);
     }
+
+
 }

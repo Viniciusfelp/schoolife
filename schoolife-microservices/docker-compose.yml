@@ -12,8 +12,8 @@ services:
   rabbitmq:
     image: "rabbitmq:3-management"
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_PASS=mypassword
     ports:
       - "15672:15672"
       - "5672:5672"
@@ -24,6 +24,7 @@ services:
       - rabbitmq
     ports:
       - "8080:8080"
+    command: /bin/sh -c "mvn clean package && java -jar target/api-gateway-0.0.1-SNAPSHOT.jar"
 
   academic-service:
     build: ./academic-service
@@ -36,6 +37,7 @@ services:
       - rabbitmq
     ports:
       - "8081:8081"
+    command: mvn clean package
 
   atividade-extracurricular-service:
     build: ./atividadeExtraCurricular-service
@@ -47,13 +49,7 @@ services:
       - rabbitmq
     ports:
       - "8082:8082"
-
-  auth-service:
-    build: ./auth-service
-    depends_on:
-      - rabbitmq
-    ports:
-      - "8083:8083"
+    command: mvn clean package
 
   nota-frequencia-service:
     build: ./notaFrequencia-service
@@ -64,4 +60,5 @@ services:
     depends_on:
       - rabbitmq
     ports:
-      - "8084:8084"
+      - "8083:8083"
+    command: mvn clean package

@@ -12,11 +12,6 @@ public class FrequenciaConsumer {
     @Autowired
     private FrequenciaService frequenciaService;
 
-    @RabbitListener(queues = "${frequencia.queue.name}")
-    public void receiveFrequenciaMessage(FrequenciaMessage frequenciaMessage) {
-        frequenciaService.createFrequenciaFromMessage(frequenciaMessage);
-    }
-
 
     @RabbitListener(queues = "${rabbitmq.queue.frequencias}")
     public void receiveFrequencia(FrequenciaMessage frequencia) {

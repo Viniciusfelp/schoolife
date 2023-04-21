@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "inscricoes")
 public class Inscricao {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "aluno_matricula")
     private String alunoMatricula;
 
@@ -22,8 +19,4 @@ public class Inscricao {
     @JoinColumn(name = "atividade_id")
     private AtividadeExtraCurricular atividade;
 
-    public Inscricao(String alunoMatricula, AtividadeExtraCurricular atividade) {
-        this.alunoMatricula = alunoMatricula;
-        this.atividade = atividade;
-    }
 }

@@ -35,10 +35,10 @@ public class AlunoController {
             @PathVariable("matricula") String matricula,
             @PathVariable("disciplinaId") Long disciplinaId
     ) {
-        NotaMessage notaMessage = new NotaMessage(matricula, disciplinaId);
+        NotaRequestMessage notaRequestMessage = new NotaRequestMessage(matricula, disciplinaId);
 
         try {
-            CompletableFuture<AlunoNotasDTO> alunoNotasDTOFuture = alunoConsumer.handleNotaResponse(notaMessage);
+            CompletableFuture<AlunoNotasDTO> alunoNotasDTOFuture = alunoConsumer.handleNotaResponse(notaRequestMessage);
             AlunoNotasDTO alunoNotasDTO = alunoNotasDTOFuture.get(); // Isso bloqueará até que o resultado esteja disponível
 
             String json = objectMapper.writeValueAsString(alunoNotasDTO);
@@ -48,6 +48,7 @@ public class AlunoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocorreu um erro ao processar a solicitação");
         }
     }
+
 
     @PostMapping
     public ResponseEntity<Void> createAluno(@RequestBody Aluno aluno) {
@@ -80,7 +81,7 @@ public class AlunoController {
     }
 
     @PostMapping("/{matricula}/notas")
-    public ResponseEntity<Void> adicionarNota(@PathVariable String matricula, @RequestBody Nota nota) {
+    public ResponseEntity<Void> adicionarNota(@PathVariable String matricula, @RequestBody NotaMessage nota) {
         nota.setMatricula(matricula);
         alunoService.adicionarNota(nota);
         return new ResponseEntity<>(HttpStatus.CREATED);

@@ -16,9 +16,6 @@ public class NotaController {
     @Autowired
     private NotaService notaService;
 
-    @Autowired
-    private NotaRequestService notaRequestService;
-
     @PostMapping("/request")
     public void handleNotaRequest(@RequestBody NotaMessage notaMessage) {
         notaService.processNotaRequest(notaMessage);
@@ -42,11 +39,16 @@ public class NotaController {
         return ResponseEntity.accepted().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Nota> updateNota(@PathVariable Long id, @RequestBody NotaMessage notaMessage) {
+    @PutMapping("/{matricula}/{disciplinaId}")
+    public ResponseEntity<List<Nota>> updateNota(@PathVariable String matricula, @PathVariable Long disciplinaId, @RequestBody NotaMessage notaMessage) {
         try {
-            Nota updatedNota = notaService.updateNota(id, notaMessage);
-            return ResponseEntity.ok(updatedNota);
+            List<Nota> updatedNotas = notaService.updateNota(matricula, disciplinaId, notaMessage);
+
+            if (updatedNotas == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok(updatedNotas);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().build();
         }

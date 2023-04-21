@@ -1,6 +1,8 @@
 package br.ufpe.cin.aps.notafrequenciaservice.models;
 
-public record NotaMessage(String matricula, Long disciplinaId, Double nota) {
+import java.util.List;
+
+public record NotaMessage(String matricula, Long disciplinaId, List<Double> nota) {
     public String getAlunoMatricula() {
         return matricula;
     }
@@ -9,7 +11,7 @@ public record NotaMessage(String matricula, Long disciplinaId, Double nota) {
         return disciplinaId;
     }
 
-    public Double getValor() {
+    public List<Double> getValor() {
         return nota;
     }
 }
