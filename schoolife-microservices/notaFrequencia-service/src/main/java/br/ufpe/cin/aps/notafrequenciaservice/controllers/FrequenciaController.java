@@ -1,16 +1,16 @@
 package br.ufpe.cin.aps.notafrequenciaservice.controllers;
+
 import br.ufpe.cin.aps.notafrequenciaservice.models.Frequencia;
-import br.ufpe.cin.aps.notafrequenciaservice.models.FrequenciaMessage;
 import br.ufpe.cin.aps.notafrequenciaservice.services.FrequenciaService;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import br.ufpe.cin.aps.notafrequenciaservice.models.FrequenciaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/frequencias")
@@ -19,47 +19,49 @@ public class FrequenciaController {
     @Autowired
     private FrequenciaService frequenciaService;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Value("${rabbitmq.exchange.frequencia}")
-    private String exchange;
-
-    @Value("${rabbitmq.routingkey.frequencia}")
-    private String routingKey;
-
     @PostMapping
-    public ResponseEntity<Frequencia> saveFrequencia(@RequestBody FrequenciaMessage frequenciaMessage) {
-        Frequencia frequencia = frequenciaService.addFrequencia(frequenciaMessage);
-        rabbitTemplate.convertAndSend(exchange, routingKey, frequenciaMessage);
-        return new ResponseEntity<>(frequencia, HttpStatus.CREATED);
+    public ResponseEntity<FrequenciaDTO> registrarFrequencia(@RequestBody Frequencia frequencia) {
+        FrequenciaDTO novaFrequencia = frequenciaService.save(frequencia);
+        return new ResponseEntity<>(novaFrequencia, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Frequencia>> getAllFrequencias() {
-        List<Frequencia> frequencias = frequenciaService.findAll();
+    @GetMapping("/disciplina/{idDisciplina}")
+    public ResponseEntity<List<FrequenciaDTO>> frequenciaPorDisciplina(@PathVariable Long idDisciplina) {
+        List<FrequenciaDTO> frequencias = frequenciaService.findByDisciplina(idDisciplina);
         return new ResponseEntity<>(frequencias, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Frequencia> getFrequenciaById(@PathVariable Long id) {
-        Optional<Frequencia> frequencia = frequenciaService.findById(id);
-        return frequencia.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @GetMapping("/aluno/{matricula}/disciplina/{idDisciplina}")
+    public ResponseEntity<List<FrequenciaDTO>> frequenciaPorAlunoEDisciplina(
+            @PathVariable String matricula, @PathVariable Long idDisciplina) {
+        List<FrequenciaDTO> frequencias = frequenciaService.findByAlunoAndDisciplina(matricula, idDisciplina);
+        return new ResponseEntity<>(frequencias, HttpStatus.OK);
     }
+    // ...
 
     @PutMapping("/{id}")
-    public ResponseEntity<Frequencia> updateFrequencia(@PathVariable Long id, @RequestBody FrequenciaMessage frequenciaMessage) {
-        Frequencia frequencia = frequenciaService.updateFrequencia(id, frequenciaMessage);
-        rabbitTemplate.convertAndSend(exchange, routingKey, frequenciaMessage);
-        return new ResponseEntity<>(frequencia, HttpStatus.OK);
+    public ResponseEntity<FrequenciaDTO> atualizarFrequencia(@PathVariable Long id, @RequestBody Frequencia frequencia) {
+        try {
+            FrequenciaDTO frequenciaAtualizada = frequenciaService.atualizarFrequencia(id, frequencia);
+            return new ResponseEntity<>(frequenciaAtualizada, HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteFrequencia(@PathVariable Long id) {
-        frequenciaService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @GetMapping("/aluno/{matricula}/disciplina/{idDisciplina}/data/{data}")
+    public ResponseEntity<List<FrequenciaDTO>> buscarFrequenciaPorData(
+            @PathVariable String matricula, @PathVariable Long idDisciplina, @PathVariable String data) {
+        LocalDate localDate = LocalDate.parse(data);
+        List<FrequenciaDTO> frequencias = frequenciaService.findByAlunoDisciplinaAndData(matricula, idDisciplina, localDate);
+        return new ResponseEntity<>(frequencias, HttpStatus.OK);
     }
 
+    @GetMapping("/aluno/{matricula}/disciplina/{idDisciplina}/faltas")
+    public ResponseEntity<Long> contarFaltas(
+            @PathVariable String matricula, @PathVariable Long idDisciplina) {
+        Long faltas = frequenciaService.countFaltasByAlunoAndDisciplina(matricula, idDisciplina);
+        return new ResponseEntity<>(faltas, HttpStatus.OK);
+    }
 
 }
-

@@ -19,7 +19,6 @@ public class AtividadeExtraCurricular {
     private Long id;
     private String nome;
     private String descricao;
-    private String status;
     @ManyToMany
     @JoinTable(
             name = "inscricoes",
@@ -27,10 +26,4 @@ public class AtividadeExtraCurricular {
             inverseJoinColumns = @JoinColumn(name = "aluno_matricula")
     )
     private List<Inscricao> alunosInscritos = new ArrayList<>();
-    public AtividadeExtraCurricular(Long id, String nome, String descricao, List<Inscricao> inscricoes) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.alunosInscritos = inscricoes;
-    }
 }

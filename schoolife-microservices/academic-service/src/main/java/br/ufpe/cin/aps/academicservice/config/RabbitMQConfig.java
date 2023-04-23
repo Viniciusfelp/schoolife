@@ -17,6 +17,13 @@ public class RabbitMQConfig {
     private String buscarNotaQueue;
     @Value("${academic.rabbitmq.queue.nota.buscar_todas}")
     private String buscarTodasNotasQueue;
+    @Value("${academic.rabbitmq.queue.nota.buscar_todas_notas_aluno}")
+    private String buscarTodasNotasAlunoQueue;
+    @Value("${academic.rabbitmq.queue.nota.buscar_todas_notas_disciplina}")
+    private String buscarTodasNotasDisciplinaQueue;
+    @Value("${academic.rabbitmq.queue.nota.buscar_notas_aluno_disciplina}")
+    private String buscarNotasAlunoDisciplinaQueue;
+
 
     // Frequencia
     @Value("${academic.rabbitmq.queue.frequencia.buscar}")
@@ -37,6 +44,21 @@ public class RabbitMQConfig {
     @Bean
     public Queue buscarTodasNotasQueue() {
         return new Queue(buscarTodasNotasQueue);
+    }
+
+    @Bean
+    public Queue buscarTodasNotasAlunoQueue() {
+        return new Queue(buscarTodasNotasAlunoQueue);
+    }
+
+    @Bean
+    public Queue buscarTodasNotasDisciplinaQueue() {
+        return new Queue(buscarTodasNotasDisciplinaQueue);
+    }
+
+    @Bean
+    public Queue buscarNotasAlunoDisciplinaQueue() {
+        return new Queue(buscarNotasAlunoDisciplinaQueue);
     }
 
     @Bean

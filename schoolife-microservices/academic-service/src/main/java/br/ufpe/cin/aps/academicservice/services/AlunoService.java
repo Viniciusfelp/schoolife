@@ -1,7 +1,6 @@
 package br.ufpe.cin.aps.academicservice.services;
 
 import br.ufpe.cin.aps.academicservice.models.*;
-import br.ufpe.cin.aps.academicservice.producers.AlunoProducer;
 import br.ufpe.cin.aps.academicservice.repositories.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +12,6 @@ public class AlunoService {
 
     @Autowired
     private AlunoRepository alunoRepository;
-    @Autowired
-    private AlunoProducer alunoProducer;
-
-
-    public void adicionarNota(NotaMessage nota) {
-        alunoProducer.sendNota(nota);
-    }
-
-    public void adicionarFrequencia(Frequencia frequencia) {
-        alunoProducer.sendFrequencia(frequencia);
-    }
 
 
     public Aluno save(Aluno aluno) {

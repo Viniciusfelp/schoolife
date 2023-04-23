@@ -9,19 +9,8 @@ services:
     ports:
       - "5432:5432"
 
-  rabbitmq:
-    image: "rabbitmq:3-management"
-    environment:
-      - RABBITMQ_DEFAULT_USER=myuser
-      - RABBITMQ_DEFAULT_PASS=mypassword
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-
   api-gateway:
     build: ./api-gateway
-    depends_on:
-      - rabbitmq
     ports:
       - "8080:8080"
     command: /bin/sh -c "mvn clean package && java -jar target/api-gateway-0.0.1-SNAPSHOT.jar"
@@ -34,7 +23,6 @@ services:
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
       - db
-      - rabbitmq
     ports:
       - "8081:8081"
     command: mvn clean package
@@ -46,7 +34,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=academics_user
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
-      - rabbitmq
+      - db
     ports:
       - "8082:8082"
     command: mvn clean package
@@ -58,7 +46,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=academics_user
       - SPRING_DATASOURCE_PASSWORD=Academics@Secure123
     depends_on:
-      - rabbitmq
+      - db
     ports:
       - "8083:8083"
     command: mvn clean package

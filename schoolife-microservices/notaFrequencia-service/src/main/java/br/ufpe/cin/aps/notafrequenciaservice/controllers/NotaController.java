@@ -1,62 +1,58 @@
 package br.ufpe.cin.aps.notafrequenciaservice.controllers;
 
 import br.ufpe.cin.aps.notafrequenciaservice.models.Nota;
-import br.ufpe.cin.aps.notafrequenciaservice.models.NotaMessage;
+import br.ufpe.cin.aps.notafrequenciaservice.models.NotaDTO;
 import br.ufpe.cin.aps.notafrequenciaservice.services.NotaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/notas")
+@RequestMapping("/api/notas")
 public class NotaController {
 
     @Autowired
     private NotaService notaService;
 
-    @PostMapping("/request")
-    public void handleNotaRequest(@RequestBody NotaMessage notaMessage) {
-        notaService.processNotaRequest(notaMessage);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Nota>> findAll() {
-        return ResponseEntity.ok(notaService.findAll());
+    @PostMapping
+    public ResponseEntity<Nota> criarNota(@RequestBody Nota nota) {
+        return new ResponseEntity<>(notaService.save(nota), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Nota> findById(@PathVariable Long id) {
-        return notaService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Nota> buscarNota(@PathVariable Long id) {
+        return new ResponseEntity<>(notaService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Nota> createNota(@RequestBody NotaMessage notaMessage) {
-        notaService.sendNotaMessage(notaMessage);
-        return ResponseEntity.accepted().build();
-    }
-
-    @PutMapping("/{matricula}/{disciplinaId}")
-    public ResponseEntity<List<Nota>> updateNota(@PathVariable String matricula, @PathVariable Long disciplinaId, @RequestBody NotaMessage notaMessage) {
-        try {
-            List<Nota> updatedNotas = notaService.updateNota(matricula, disciplinaId, notaMessage);
-
-            if (updatedNotas == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            return ResponseEntity.ok(updatedNotas);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<Nota> atualizarNota(@PathVariable Long id, @RequestBody Nota notaAtualizada) {
+        return new ResponseEntity<>(notaService.update(id, notaAtualizada), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNota(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarNota(@PathVariable Long id) {
         notaService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/aluno/{matricula}")
+    public ResponseEntity<List<NotaDTO>> buscarNotasPorAluno(@PathVariable String matricula) {
+        List<NotaDTO> notas = notaService.findNotasWithAlunoAndDisciplinaByAluno(matricula);
+        return new ResponseEntity<>(notas, HttpStatus.OK);
+    }
+
+    @GetMapping("/disciplina/{idDisciplina}")
+    public ResponseEntity<List<NotaDTO>> buscarNotasPorDisciplina(@PathVariable Long idDisciplina) {
+        List<NotaDTO> notas = notaService.findNotasWithAlunoAndDisciplinaByDisciplina(idDisciplina);
+        return new ResponseEntity<>(notas, HttpStatus.OK);
+    }
+
+    @GetMapping("/aluno/{matricula}/disciplina/{idDisciplina}")
+    public ResponseEntity<List<NotaDTO>> buscarNotasPorAlunoEDisciplina(@PathVariable String matricula, @PathVariable Long idDisciplina) {
+        List<NotaDTO> notas = notaService.findNotasWithAlunoAndDisciplinaByAlunoAndDisciplina(matricula, idDisciplina);
+        return new ResponseEntity<>(notas, HttpStatus.OK);
     }
 }

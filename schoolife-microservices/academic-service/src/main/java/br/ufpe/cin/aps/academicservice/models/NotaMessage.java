@@ -7,7 +7,7 @@ import java.util.List;
 public class NotaMessage implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
+    private Long id;
     private String matricula;
     private Long disciplinaId;
     private List<Double> notas;
@@ -27,6 +27,15 @@ public class NotaMessage implements Serializable {
     }
 
     // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getMatricula() {
         return matricula;
     }
