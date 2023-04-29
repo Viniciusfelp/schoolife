@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: academic-service
+          uri: lb://ACADEMIC-SERVICE
+          predicates:
+            - Path=/academic-service/**
+        - id: atividadeExtracurricular-service
+          uri: lb://ATIVIDADEEXTRACURRICULAR-SERVICE
+          predicates:
+            - Path=/atividadeExtracurricular-service/**
+        - id: notaFrequencia-service
+          uri: lb://NOTAFREQUENCIA-SERVICE
+          predicates:
+            - Path=/notaFrequencia-service/**

@@ -30,6 +30,7 @@
         <option value="$PROJECT_DIR$/schoolife-microservices/atividadeExtraCurricular-service/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-microservices/auth-service/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-monolith/pom.xml" />
+        <option value="$PROJECT_DIR$/schoolife-microservices/discovery-server/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -40,6 +41,7 @@
         <option value="$PROJECT_DIR$/discipline-service/pom.xml" />
         <option value="$PROJECT_DIR$/room-schedule-service/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-microservices/auth-service/pom.xml" />
+        <option value="$PROJECT_DIR$/schoolife-microservices/discovery-server/pom.xml" />
         <option value="$PROJECT_DIR$/schoolife-monolith/pom.xml" />
         <option value="$PROJECT_DIR$/services-l/disciplina-service/pom.xml" />
         <option value="$PROJECT_DIR$/services-l/professor-service/pom.xml" />
